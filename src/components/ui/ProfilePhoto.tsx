@@ -16,7 +16,7 @@ export default function ProfilePhoto() {
         </div>
       ) : (
         <Image
-          src="/images/profile.jpg"
+          src="/images/profile.jpeg"
           alt="Portrait of Mohammad Raka Saputra"
           fill
           priority
