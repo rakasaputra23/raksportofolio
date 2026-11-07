@@ -171,32 +171,107 @@ export const projects: Project[] = [
   {
     slug: "customer-complaint",
     title: "Customer Complaint System",
-    category: "Web Application · Internship",
+    category: "Web Application · Freelance",
     summary:
-      "An application for recording, tracking, and resolving customer complaints in one place.",
-    stack: ["Laravel 13", "Filament"],
+      "A Laravel + Filament platform where customers submit, track, and resolve product complaints with investigation, corrective-action, and multi-level approval workflows.",
+    stack: ["Laravel 13", "Filament", "MySQL", "PDF/QR Verification"],
     featured: true,
-    role: "Developer (Internship)",
-    timeline: "Jul — Dec 2025",
+    role: "Freelance Full-Stack Developer",
+    timeline: "Aug 2026",
     overview:
-      "The Customer Complaint System helps a team record, follow up, and resolve customer complaints in one place. It was built with Laravel and Filament during my internship at PT INKA Multi Solusi.",
-    // Isi sendiri: problem, features, contributions, challenges, learnings, link.
+      "The Customer Complaint System is an internal platform at PT INKA Multi Solusi built with Laravel 13 and Filament, split into a Customer panel and an Admin panel. A customer submits a complaint with product details and supporting attachments; the admin team then investigates, records corrective actions, and routes the case through a structured approval process before the customer confirms the resolution. Every closed complaint produces a PDF report with a QR-coded verification signature.",
     link: "https://support.ims.id",
-    screenshotCaptions: ["Screenshot 1", "Screenshot 2", "Screenshot 3", "Screenshot 4"],
+    problem:
+      "Customer complaints about delivered products were being tracked informally, with no single record of a complaint's investigation, the corrective action taken, or who had signed off on closing it. There was no structured way to make sure every stage — investigation, repair, and multi-department approval — was actually completed and documented before a complaint was marked resolved, and no way for a customer to formally confirm the outcome.",
+    features: [
+      {
+        title: "Customer complaint submission",
+        description:
+          "Customers submit product details, contract number, and one or more complaint items (product number, component/unit, and a description), each required field enforced so a complaint can't be filed incomplete, plus mandatory supporting attachments.",
+      },
+      {
+        title: "Admin investigation workflow",
+        description:
+          "Admins log investigation details (warranty period, project reference, investigator) and findings, each step requiring its own notes and attachments before moving forward.",
+      },
+      {
+        title: "Corrective action tracking",
+        description:
+          "A dedicated step records the root cause and the corrective action taken, who carried it out, and supporting evidence, creating a clear before/after trail for each complaint.",
+      },
+      {
+        title: "Multi-department approval & closure",
+        description:
+          "Closing a complaint requires sign-off across departments (quality control, engineering, commercial) before it's sent back to the customer for final confirmation.",
+      },
+      {
+        title: "Customer approve/reject with revision loop",
+        description:
+          "The customer can approve the resolution to close the case, or reject it with notes and attachments explaining why. A rejection automatically opens a new, linked revision case carrying over the relevant data, so admins pick up exactly where the original left off instead of starting from scratch — while the revision case closes out through the system once action is retaken, instead of re-entering an unbounded approve/reject loop.",
+      },
+      {
+        title: "PDF reports with QR verification",
+        description:
+          "Every closed complaint generates a formal PDF report, with a QR code for verifying the document's authenticity.",
+      },
+    ],
+    contributions: [
+      "Designed the database schema linking complaints, investigation records, corrective actions, approvals, attachments, and the original-to-revision complaint relationship.",
+      "Built both Filament panels (Customer and Admin) covering submission, investigation, corrective action, multi-department approval, and closure.",
+      "Implemented the reject-and-revise flow: automatic creation of a linked revision complaint on customer rejection, carrying over relevant prior data and surfacing the previous rejection reason to admins.",
+      "Enforced required fields and mandatory attachments across every stage of the flow, from initial submission through final approval.",
+      "Built PDF report generation with QR code verification for closed complaints.",
+    ],
+    challenges: [
+      "The original flow allowed a complaint to be rejected, revised, and sent back for approval indefinitely, with no stopping condition — had to redesign the revision path so a revised complaint closes out automatically instead of looping back through customer approval again.",
+      "Keeping admins oriented when picking up a revision case, since the rejection context (who rejected it, why, and with what evidence) originally lived only on the old, already-closed complaint record.",
+      "Making nearly every field across two panels and several multi-step forms mandatory without the forms becoming error-prone or confusing to fill out in order.",
+    ],
+    learnings: [
+      "A workflow with a reject-and-retry loop needs an explicit exit condition designed in from the start, or it will eventually surface as an infinite cycle once it meets real usage.",
+      "Carrying context forward (like a prior rejection reason) across linked records matters as much as the workflow logic itself — without it, the next person in the flow is working blind.",
+      "Incremental, review-before-execute changes work well on a live business workflow: analyzing the exact behavior change before touching code avoided breaking the parts of the flow that already matched how the company actually operates.",
+    ],
+    screenshotCaptions: ["Login User", "Dashboard User", "Login Admin", "Dashboard Admin"],
   },
   {
-    slug: "dapur-malika",
-    title: "Dapur Malika",
-    category: "Company Profile Website",
-    summary: "A company profile website that presents a catering business to its customers.",
-    stack: ["Laravel", "Web Development"],
+    slug: "food-ordering-ims",
+    title: "Food Ordering Management System",
+    category: "Web Application · Freelance",
+    summary:
+      "A food ordering management system with multi-role permissions, built as a freelance collaboration with a fellow intern.",
+    stack: ["Laravel", "Vite", "React", "shadcn/ui", "MySQL"],
     featured: false,
-    role: "Web Developer",
+    role: "Full-Stack Developer (Collaboration, freelance)",
+    timeline: "Jan — Feb 2026",
     overview:
-      "Dapur Malika is a company profile website that presents a catering business and its offerings to customers.",
-    // Isi sendiri: problem, features, contributions, challenges, learnings, link.
-    link: "https://dapurmalika.com",
-    screenshotCaptions: ["Screenshot 1", "Screenshot 2", "Screenshot 3", "Screenshot 4"],
+      "A food ordering management system built for PT INKA Multi Solusi (IMS) as a freelance project together with a fellow intern: a decoupled Laravel backend paired with a separate Vite + React frontend built on shadcn/ui. The system handles multiple roles — including vendors — each with their own scoped access and permissions.",
+    link: "https://order.ims.id",
+    problem:
+      "Food ordering records were still being managed manually in spreadsheets, with no system behind the process — data entry, tracking, and reporting all depended on someone keeping the spreadsheet up to date by hand.",
+    features: [
+      {
+        title: "Multi-role access with vendor accounts",
+        description:
+          "Different user roles, including vendors, each scoped to their own permissions within the system.",
+      },
+      {
+        title: "Automatic spreadsheet export",
+        description:
+          "Generates spreadsheet reports automatically from system data, formatted to match the company's existing template, replacing manual spreadsheet upkeep.",
+      },
+    ],
+    contributions: [
+      "Worked on the multi-role permission system covering different user types, including vendors.",
+      "Diagnosed and fixed a vendor export permission issue that was letting the wrong role access export functionality.",
+    ],
+    challenges: [
+      "Getting the automatically generated spreadsheet export to match the company's existing template exactly, so the output could replace the manual spreadsheet without disrupting how the data was already being read and used.",
+    ],
+    learnings: [
+      "Working with a decoupled architecture — a Laravel backend separate from a Vite + React frontend built on shadcn/ui — rather than a tied-together Inertia setup.",
+    ],
+    screenshotCaptions: ["Login", "Dashboard Admin", "Verifikasi Pesanan", "Export Excel"],
   },
 ];
 

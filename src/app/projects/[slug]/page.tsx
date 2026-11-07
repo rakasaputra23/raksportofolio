@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import {
   SCREENSHOT_COUNT,
   getAdjacentProjects,
@@ -62,7 +63,34 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
-export default async function ProjectDetailPage({ params }: { params: Promise<Params> }) {
+// Membaca `params` di dalam komponen anak yang dibungkus <Suspense>,
+// supaya shell halaman tidak terikat ke satu URL (lihat panduan Partial Prefetching Next.js).
+export default function ProjectDetailPage({ params }: { params: Promise<Params> }) {
+  return (
+    <Suspense fallback={<ProjectDetailSkeleton />}>
+      <ProjectDetails params={params} />
+    </Suspense>
+  );
+}
+
+function ProjectDetailSkeleton() {
+  return (
+    <div
+      aria-hidden
+      className="mx-auto max-w-6xl animate-pulse px-5 py-12 sm:px-8 sm:py-20"
+    >
+      <div className="h-4 w-24 rounded bg-surface" />
+      <div className="mt-8 h-12 w-2/3 rounded-xl bg-surface" />
+      <div className="mt-5 h-5 w-1/2 rounded bg-surface" />
+      <div className="mt-14 grid gap-4 sm:grid-cols-2">
+        <div className="aspect-[16/10] rounded-2xl bg-surface" />
+        <div className="aspect-[16/10] rounded-2xl bg-surface" />
+      </div>
+    </div>
+  );
+}
+
+async function ProjectDetails({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();

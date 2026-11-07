@@ -16,11 +16,10 @@ export const experience: ExperienceItem[] = [
     points: [
       "Interned in the Information Technology (IT) department, supporting the Human Resources and Risk Management division.",
       "Developed Kasbon Online, a web application for managing cash advance and business trip requests.",
-      "Built a Customer Complaint System using Laravel 13 and Filament.",
       "Worked with Laravel, PHP, and MySQL in a real company environment.",
       "Gained hands-on experience in web development, IT technical support, and data management.",
     ],
-    tags: ["Laravel", "PHP", "MySQL", "Filament"],
+    tags: ["Laravel", "PHP", "MySQL"],
   },
   {
     period: "2024 — 2025",
