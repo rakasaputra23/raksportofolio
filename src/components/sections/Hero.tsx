@@ -3,6 +3,12 @@ import { site } from "@/data/site";
 import ProfilePhoto from "@/components/ui/ProfilePhoto";
 import Reveal from "@/components/ui/Reveal";
 
+const roles = [
+  "Software Development Enthusiast",
+  "Freelance Web & Mobile Developer",
+  "IT Support & Networking",
+];
+
 const floating = [
   { label: "Laravel", className: "-left-4 top-10 sm:-left-10", delay: "0s" },
   { label: "Kotlin", className: "-right-3 top-1/3 sm:-right-8", delay: "1.2s" },
@@ -14,13 +20,20 @@ export default function Hero() {
     <section className="mx-auto grid max-w-6xl items-center gap-14 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.15fr_0.85fr]">
       <div>
         <Reveal>
-          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-3.5 py-1.5 font-mono text-xs text-accent backdrop-blur">
-            <span className="relative flex h-2 w-2">
+          <div className="inline-flex max-w-full items-center gap-3 rounded-2xl border border-line bg-surface/60 px-4 py-2.5 backdrop-blur">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            {site.role} · Web &amp; Mobile
-          </p>
+            <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-accent">
+              {roles.map((r, i) => (
+                <li key={r} className="flex items-center gap-3">
+                  {i > 0 && <span aria-hidden className="h-3 w-px bg-line" />}
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </div>
         </Reveal>
 
         <Reveal delay={0.08}>
@@ -42,13 +55,12 @@ export default function Hero() {
             >
               Explore Projects
             </Link>
-            <a
-              href={site.cv}
-              download
+            <Link
+              href={site.cvPage}
               className="rounded-full border border-line bg-surface/40 px-7 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface"
             >
-              Download CV
-            </a>
+              View CV
+            </Link>
           </div>
         </Reveal>
 

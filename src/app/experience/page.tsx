@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { certifications, education, experience } from "@/data/experience";
+import { certifications, education, experience, highSchool } from "@/data/experience";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
   title: "Experience",
-  description: "Internship, organization, education, and certifications of Mohammad Raka Saputra.",
+  description: "Freelance work, final project, internship, organization, education, and certifications of Mohammad Raka Saputra.",
 };
 
 export default function ExperiencePage() {
@@ -18,7 +18,7 @@ export default function ExperiencePage() {
           <span className="text-gradient">Experience</span>
         </h1>
         <p className="mt-5 max-w-2xl text-muted">
-          Professional experience from my internship and leadership roles in my campus
+          Freelance work, my final project, my internship, and leadership roles in my campus
           organization.
         </p>
       </Reveal>
@@ -79,6 +79,13 @@ export default function ExperiencePage() {
               {education.period} · GPA {education.gpa}
             </p>
             <p className="mt-4 text-sm leading-relaxed text-muted">{education.note}</p>
+          </div>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <div className="card-glow mt-5 rounded-3xl border border-line bg-surface/60 p-6 backdrop-blur-sm sm:p-8">
+            <h3 className="font-heading text-xl font-semibold">{highSchool.school}</h3>
+            <p className="text-muted">{highSchool.program}</p>
+            <p className="mt-1 font-mono text-xs text-accent">{highSchool.period}</p>
           </div>
         </Reveal>
       </section>

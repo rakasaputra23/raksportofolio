@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { certifications, education, experience, languages, training } from "@/data/experience";
+import { certifications, education, experience, highSchool, languages, training } from "@/data/experience";
 import { techStack } from "@/data/techStack";
 import { site } from "@/data/site";
 import ProfilePhoto from "@/components/ui/ProfilePhoto";
@@ -9,7 +9,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "About Mohammad Raka Saputra, a junior software engineer building web and mobile applications.",
+  description: "About Mohammad Raka Saputra, a full-stack web and Android developer.",
 };
 
 const values = [
@@ -50,29 +50,32 @@ export default function AboutPage() {
           </h1>
           <div className="mt-6 space-y-4 leading-relaxed text-muted">
             <p>
-              I am a D3 Information Technology graduate and junior software engineer. I build web
-              applications with PHP, Laravel, React, and Next.js, and mobile apps with Kotlin,
-              Jetpack Compose, and Flutter.
+              I am an Information Technology graduate from Politeknik Negeri Madiun and a
+              full-stack web and Android developer who enjoys turning real-world needs into
+              working software. I build web applications with PHP, Laravel, and React, and
+              Android apps with Kotlin and Jetpack Compose.
             </p>
             <p>
-              My work ranges from a real-time bus tracking system built as my final project (Android
-              and GPS) and projects for real clients, to internal business tools built during my
-              internship. I enjoy the full journey of a product: shaping the database,
-              building the interface, and deploying it for people to use.
+              For my final project I built STJ Tracker, a real-time bus monitoring system with
+              Android apps and an admin dashboard. As a software development intern at PT INKA
+              Multi Solusi I built Kasbon Online, and as an independent freelancer I built a
+              Customer Complaint System with multi-department approval and QR-verified PDF
+              reports. Beyond development, I have hands-on experience in IT support, computer
+              networking, and database management.
             </p>
             <p>
-              Outside of code, I have led teams and events in my campus organization, which taught
-              me how to plan, coordinate, and deliver together.
+              I was also active in HIMATIF as PSDM division coordinator and event chair for the
+              study program orientation, which taught me how to plan, coordinate, and deliver
+              together. I am open to full-time opportunities and freelance collaborations.
             </p>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href={site.cv}
-              download
+            <Link
+              href={site.cvPage}
               className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-white shadow-[0_0_30px_-8px_rgba(37,99,235,0.85)] transition hover:-translate-y-0.5 hover:bg-primary/90"
             >
-              Download CV
-            </a>
+              View CV
+            </Link>
             <Link
               href="/contact"
               className="rounded-full border border-line px-6 py-3 text-sm font-medium transition hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface"
@@ -116,6 +119,10 @@ export default function AboutPage() {
                 {education.period} · GPA {education.gpa}
               </p>
               <p className="mt-4 text-sm leading-relaxed text-muted">{education.note}</p>
+              <p className="mt-4 border-t border-line pt-4 text-sm text-muted">
+                <span className="text-fg">{highSchool.school}</span> · {highSchool.program} ·{" "}
+                <span className="font-mono text-xs">{highSchool.period}</span>
+              </p>
             </div>
           </Reveal>
           {himatif && (

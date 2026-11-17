@@ -8,7 +8,7 @@ export default function ExperiencePreview() {
       <Reveal>
         <SectionHeading
           eyebrow="// experience"
-          title="Where I have worked and led"
+          title="Where I have worked and built"
           action={{ href: "/experience", label: "Full experience" }}
         />
       </Reveal>

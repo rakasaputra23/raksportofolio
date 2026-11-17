@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { site } from "@/data/site";
 import CopyButton from "@/components/ui/CopyButton";
 import Reveal from "@/components/ui/Reveal";
@@ -19,7 +20,7 @@ export default function ContactPage() {
           Let&apos;s <span className="text-gradient">talk</span>
         </h1>
         <p className="mt-5 max-w-2xl text-muted">
-          Looking for a junior software engineer, have a project in mind, or just want to say
+          Looking for a full-stack developer, have a project in mind, or just want to say
           hello? Email is the fastest way to reach me. I am happy to hear from you.
         </p>
       </Reveal>
@@ -118,15 +119,23 @@ export default function ContactPage() {
           <div className="card-glow flex flex-col gap-4 rounded-3xl border border-line bg-surface/60 p-6 backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
               <p className="font-mono text-xs text-accent">Curriculum Vitae</p>
-              <p className="mt-2 text-muted">Download my CV for a full overview of my background.</p>
+              <p className="mt-2 text-muted">View my CV right here on the site, or download a copy for later.</p>
             </div>
-            <a
-              href={site.cv}
-              download
-              className="rounded-full border border-line px-6 py-3 text-center text-sm font-medium transition hover:border-accent/50 hover:bg-bg/60"
-            >
-              Download CV
-            </a>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href={site.cvPage}
+                className="rounded-full bg-primary px-6 py-3 text-center text-sm font-medium text-white transition hover:bg-primary/90"
+              >
+                View CV
+              </Link>
+              <a
+                href={site.cv}
+                download
+                className="rounded-full border border-line px-6 py-3 text-center text-sm font-medium transition hover:border-accent/50 hover:bg-bg/60"
+              >
+                Download
+              </a>
+            </div>
           </div>
         </Reveal>
       </div>

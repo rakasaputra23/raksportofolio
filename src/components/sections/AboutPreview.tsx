@@ -4,8 +4,9 @@ import SectionHeading from "@/components/ui/SectionHeading";
 
 const facts = [
   { label: "Education", value: "D3 Information Technology", sub: "Politeknik Negeri Madiun · 2023 — 2026 · GPA 3.28" },
-  { label: "Focus", value: "Web & Mobile Development", sub: "Laravel · React · Kotlin · Flutter" },
-  { label: "Organization", value: "HIMATIF", sub: "2024 — 2025" },
+  { label: "Focus", value: "Web & Mobile Development", sub: "Laravel · React · Kotlin · Jetpack Compose" },
+  { label: "Now", value: "Freelance Full-Stack Developer", sub: "Open to full-time roles and freelance work" },
+  { label: "Organization", value: "HIMATIF", sub: "PSDM coordinator · 2024 — 2025" },
 ];
 
 export default function AboutPreview() {
@@ -15,9 +16,9 @@ export default function AboutPreview() {
         <Reveal>
           <SectionHeading eyebrow="// about" title="A developer who cares about the details" />
           <p className="mt-6 leading-relaxed text-muted">
-            I am a D3 Information Technology graduate and junior software engineer who enjoys turning real problems into
-            working software. I build web applications with Laravel and React, and mobile
-            apps with Kotlin, Jetpack Compose, and Flutter.
+            I am an Information Technology graduate and full-stack web and Android developer who enjoys turning
+            real-world needs into working software. I build web applications with Laravel and React, and
+            Android apps with Kotlin and Jetpack Compose.
           </p>
           <p className="mt-4 leading-relaxed text-muted">
             I care about clean structure, practical features, and interfaces that people

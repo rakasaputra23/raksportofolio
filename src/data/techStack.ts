@@ -13,16 +13,16 @@ export const techStack: TechGroup[] = [
   {
     label: "Backend",
     hint: "APIs and admin systems",
-    items: ["Laravel", "PHP", "MySQL", "REST API", "Filament", "Database Management"],
+    items: ["Laravel", "PHP", "MySQL", "REST API", "Filament", "PDF Generation", "Workflow Design", "Database Management"],
   },
   {
     label: "Mobile",
     hint: "Android and cross-platform applications",
-    items: ["Kotlin", "Jetpack Compose", "Flutter", "Android Development", "Firebase"],
+    items: ["Kotlin", "Jetpack Compose", "Flutter", "Android Development", "Firebase", "Google Maps API"],
   },
   {
     label: "Tools",
     hint: "Workflow and deployment",
-    items: ["Git", "GitHub", "Vercel", "IT Project Management", "Team Coordination"],
+    items: ["Git", "GitHub", "Nginx & PHP-FPM", "VPS Deployment", "Vercel", "IT Support", "Computer Networking", "IT Project Management"],
   },
 ];
