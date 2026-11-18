@@ -2,6 +2,7 @@ import { featuredProjects } from "@/data/projects";
 import ProjectCard from "@/components/ui/ProjectCard";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import T from "@/components/ui/T";
 
 export default function FeaturedProjects() {
   return (
@@ -9,9 +10,14 @@ export default function FeaturedProjects() {
       <Reveal>
         <SectionHeading
           eyebrow="// featured projects"
-          title="Selected work"
-          description="Real applications built for real users, from mobile tracking to internal business systems."
-          action={{ href: "/projects", label: "All projects" }}
+          title={<T en="Selected work" id="Karya pilihan" />}
+          description={
+            <T
+              en="Real applications built for real users, from mobile tracking to internal business systems."
+              id="Aplikasi nyata untuk pengguna nyata, dari pelacakan mobile sampai sistem bisnis internal."
+            />
+          }
+          action={{ href: "/projects", label: <T en="All projects" id="Semua proyek" /> }}
         />
       </Reveal>
 

@@ -6,8 +6,11 @@ import {
   SCREENSHOT_COUNT,
   getAdjacentProjects,
   getProject,
+  localize,
   projects,
 } from "@/data/projects";
+import { zip, type Bi } from "@/i18n";
+import T, { B } from "@/components/ui/T";
 import Reveal from "@/components/ui/Reveal";
 import ScreenshotGallery from "@/components/ui/ScreenshotGallery";
 
@@ -25,7 +28,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) return {};
-  return { title: project.title, description: project.summary };
+  return {
+    title: project.title,
+    description: project.summary,
+    alternates: { canonical: `/projects/${slug}` },
+  };
 }
 
 function Section({
@@ -34,7 +41,7 @@ function Section({
   children,
 }: {
   eyebrow: string;
-  title: string;
+  title: Bi;
   children: React.ReactNode;
 }) {
   return (
@@ -42,7 +49,7 @@ function Section({
       <section>
         <p className="font-mono text-xs text-accent">{eyebrow}</p>
         <h2 className="mt-2 font-heading text-2xl font-semibold tracking-tight sm:text-3xl">
-          {title}
+          <B v={title} />
         </h2>
         <div className="mt-5">{children}</div>
       </section>
@@ -50,13 +57,13 @@ function Section({
   );
 }
 
-function BulletList({ items }: { items: string[] }) {
+function BulletList({ items }: { items: Bi<string[]> }) {
   return (
     <ul className="space-y-3 text-muted">
-      {items.map((item) => (
-        <li key={item} className="flex gap-3 leading-relaxed">
+      {zip(items).map((item) => (
+        <li key={item.en} className="flex gap-3 leading-relaxed">
           <span aria-hidden className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
-          {item}
+          <B v={item} />
         </li>
       ))}
     </ul>
@@ -96,6 +103,11 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
   if (!project) notFound();
 
   const { prev, next } = getAdjacentProjects(slug);
+  const id = localize(project, "id");
+  const prevId = localize(prev, "id");
+  const nextId = localize(next, "id");
+  // Pasangan {en, id} untuk daftar teks
+  const bi = (en?: string[], idList?: string[]): Bi<string[]> => ({ en: en ?? [], id: idList ?? en ?? [] });
 
   return (
     <article className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
@@ -106,16 +118,20 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
         <span aria-hidden className="transition-transform group-hover:-translate-x-1">
           ←
         </span>
-        All projects
+        <T en="All projects" id="Semua proyek" />
       </Link>
 
       <Reveal>
         <header className="mt-8 max-w-3xl">
-          <p className="font-mono text-sm text-accent">{project.category}</p>
+          <p className="font-mono text-sm text-accent">
+            <T en={project.category} id={id.category} />
+          </p>
           <h1 className="mt-3 font-heading text-4xl font-bold tracking-tight sm:text-6xl">
             <span className="text-gradient">{project.title}</span>
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-muted">{project.summary}</p>
+          <p className="mt-5 text-lg leading-relaxed text-muted">
+            <T en={project.summary} id={id.summary} />
+          </p>
         </header>
       </Reveal>
 
@@ -127,31 +143,40 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
               title={project.title}
               count={SCREENSHOT_COUNT}
               captions={project.screenshotCaptions}
+              captionsId={id.screenshotCaptions}
             />
           </Reveal>
 
           {project.overview && (
-            <Section eyebrow="// overview" title="Overview">
-              <p className="leading-relaxed text-muted">{project.overview}</p>
+            <Section eyebrow="// overview" title={{ en: "Overview", id: "Ikhtisar" }}>
+              <p className="leading-relaxed text-muted">
+                <T en={project.overview} id={id.overview} />
+              </p>
             </Section>
           )}
 
           {project.problem && (
-            <Section eyebrow="// problem" title="The problem">
-              <p className="leading-relaxed text-muted">{project.problem}</p>
+            <Section eyebrow="// problem" title={{ en: "The problem", id: "Masalahnya" }}>
+              <p className="leading-relaxed text-muted">
+                <T en={project.problem} id={id.problem} />
+              </p>
             </Section>
           )}
 
           {project.features && project.features.length > 0 && (
-            <Section eyebrow="// features" title="Key features">
+            <Section eyebrow="// features" title={{ en: "Key features", id: "Fitur utama" }}>
               <div className="grid gap-4 sm:grid-cols-2">
-                {project.features.map((f) => (
+                {project.features.map((f, i) => (
                   <div
                     key={f.title}
                     className="card-glow rounded-2xl border border-line bg-surface/60 p-5"
                   >
-                    <h3 className="font-heading text-base font-semibold">{f.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted">{f.description}</p>
+                    <h3 className="font-heading text-base font-semibold">
+                      <T en={f.title} id={id.features?.[i]?.title ?? f.title} />
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
+                      <T en={f.description} id={id.features?.[i]?.description ?? f.description} />
+                    </p>
                   </div>
                 ))}
               </div>
@@ -159,25 +184,35 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
           )}
 
           {project.contributions && project.contributions.length > 0 && (
-            <Section eyebrow="// contribution" title="My role & contributions">
-              <BulletList items={project.contributions} />
+            <Section
+              eyebrow="// contribution"
+              title={{ en: "My role & contributions", id: "Peran & kontribusi saya" }}
+            >
+              <BulletList items={bi(project.contributions, id.contributions)} />
             </Section>
           )}
 
           {((project.challenges && project.challenges.length > 0) ||
             (project.learnings && project.learnings.length > 0)) && (
-            <Section eyebrow="// learning" title="Challenges & learnings">
+            <Section
+              eyebrow="// learning"
+              title={{ en: "Challenges & learnings", id: "Tantangan & pelajaran" }}
+            >
               <div className="space-y-8">
                 {project.challenges && project.challenges.length > 0 && (
                   <div>
-                    <h3 className="mb-3 font-heading text-base font-semibold">Challenges</h3>
-                    <BulletList items={project.challenges} />
+                    <h3 className="mb-3 font-heading text-base font-semibold">
+                      <T en="Challenges" id="Tantangan" />
+                    </h3>
+                    <BulletList items={bi(project.challenges, id.challenges)} />
                   </div>
                 )}
                 {project.learnings && project.learnings.length > 0 && (
                   <div>
-                    <h3 className="mb-3 font-heading text-base font-semibold">What I learned</h3>
-                    <BulletList items={project.learnings} />
+                    <h3 className="mb-3 font-heading text-base font-semibold">
+                      <T en="What I learned" id="Yang saya pelajari" />
+                    </h3>
+                    <BulletList items={bi(project.learnings, id.learnings)} />
                   </div>
                 )}
               </div>
@@ -191,18 +226,28 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
               <dl className="space-y-5 text-sm">
                 {project.role && (
                   <div>
-                    <dt className="font-mono text-xs text-accent">Role</dt>
-                    <dd className="mt-1 text-fg">{project.role}</dd>
+                    <dt className="font-mono text-xs text-accent">
+                      <T en="Role" id="Peran" />
+                    </dt>
+                    <dd className="mt-1 text-fg">
+                      <T en={project.role} id={id.role} />
+                    </dd>
                   </div>
                 )}
                 {project.timeline && (
                   <div>
-                    <dt className="font-mono text-xs text-accent">Timeline</dt>
-                    <dd className="mt-1 text-fg">{project.timeline}</dd>
+                    <dt className="font-mono text-xs text-accent">
+                      <T en="Timeline" id="Linimasa" />
+                    </dt>
+                    <dd className="mt-1 text-fg">
+                      <T en={project.timeline} id={id.timeline} />
+                    </dd>
                   </div>
                 )}
                 <div>
-                  <dt className="font-mono text-xs text-accent">Tech stack</dt>
+                  <dt className="font-mono text-xs text-accent">
+                    <T en="Tech stack" id="Teknologi" />
+                  </dt>
                   <dd className="mt-2 flex flex-wrap gap-2">
                     {project.stack.map((tech) => (
                       <span
@@ -223,7 +268,10 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
                   rel="noopener noreferrer"
                   className="mt-6 flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-medium text-white shadow-[0_0_30px_-8px_rgba(37,99,235,0.85)] transition hover:bg-primary/90"
                 >
-                  {project.linkLabel ?? "Visit Project"}
+                  <T
+                    en={project.linkLabel ?? "Visit Project"}
+                    id={id.linkLabel ?? "Kunjungi Proyek"}
+                  />
                   <span aria-hidden>↗</span>
                 </a>
               )}
@@ -241,15 +289,19 @@ async function ProjectDetails({ params }: { params: Promise<Params> }) {
           href={`/projects/${prev.slug}`}
           className="card-glow group rounded-2xl border border-line bg-surface/60 p-5"
         >
-          <p className="font-mono text-xs text-muted">← Previous</p>
-          <p className="mt-1 font-heading text-lg font-semibold">{prev.title}</p>
+          <p className="font-mono text-xs text-muted">
+            <T en="← Previous" id="← Sebelumnya" />
+          </p>
+          <p className="mt-1 font-heading text-lg font-semibold">{prevId.title}</p>
         </Link>
         <Link
           href={`/projects/${next.slug}`}
           className="card-glow group rounded-2xl border border-line bg-surface/60 p-5 sm:text-right"
         >
-          <p className="font-mono text-xs text-muted">Next →</p>
-          <p className="mt-1 font-heading text-lg font-semibold">{next.title}</p>
+          <p className="font-mono text-xs text-muted">
+            <T en="Next →" id="Berikutnya →" />
+          </p>
+          <p className="mt-1 font-heading text-lg font-semibold">{nextId.title}</p>
         </Link>
       </nav>
     </article>

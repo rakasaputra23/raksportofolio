@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import T from "@/components/ui/T";
 
 type Props = {
   value: string;
-  label?: string;
+  label?: ReactNode;
 };
 
 export default function CopyButton({ value, label = "Copy" }: Props) {
@@ -35,7 +36,7 @@ export default function CopyButton({ value, label = "Copy" }: Props) {
       aria-live="polite"
       className="rounded-full border border-line bg-bg/60 px-4 py-2 font-mono text-xs text-fg/85 transition hover:border-accent/50 hover:text-accent"
     >
-      {copied ? "Copied ✓" : label}
+      {copied ? <T en="Copied ✓" id="Tersalin ✓" /> : label}
     </button>
   );
 }

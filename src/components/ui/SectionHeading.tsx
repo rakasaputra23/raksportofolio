@@ -1,10 +1,11 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 type Props = {
   eyebrow: string;
-  title: string;
-  description?: string;
-  action?: { href: string; label: string };
+  title: ReactNode;
+  description?: ReactNode;
+  action?: { href: string; label: ReactNode };
 };
 
 export default function SectionHeading({ eyebrow, title, description, action }: Props) {

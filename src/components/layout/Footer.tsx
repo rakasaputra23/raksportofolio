@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { navLinks, site } from "@/data/site";
+import T from "@/components/ui/T";
 
 export default function Footer() {
   return (
@@ -7,14 +8,16 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-10 sm:px-8 md:flex-row md:items-center md:justify-between">
         <div>
           <p className="font-heading text-lg font-semibold">{site.name}</p>
-          <p className="mt-1 font-mono text-xs text-muted">{site.role}</p>
+          <p className="mt-1 font-mono text-xs text-muted">
+            <T en={site.role} id={site.roleId} />
+          </p>
         </div>
 
         <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link href={link.href} className="transition hover:text-white">
-                {link.label}
+                <T en={link.label} id={link.labelId} />
               </Link>
             </li>
           ))}
@@ -49,7 +52,7 @@ export default function Footer() {
         </ul>
       </div>
       <p className="border-t border-line py-5 text-center font-mono text-xs text-muted">
-        © {site.name}. Built with Next.js.
+        © {site.name}. <T en="Built with Next.js." id="Dibuat dengan Next.js." />
       </p>
     </footer>
   );

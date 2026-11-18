@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { site } from "@/data/site";
+import { projects } from "@/data/projects";
+import type { Bi } from "@/i18n";
+import T, { B } from "@/components/ui/T";
 import ProfilePhoto from "@/components/ui/ProfilePhoto";
 import Reveal from "@/components/ui/Reveal";
 
-const roles = [
-  "Software Development Enthusiast",
-  "Freelance Web & Mobile Developer",
-  "IT Support & Networking",
+const stats: { value: string; label: Bi }[] = [
+  { value: String(projects.length), label: { en: "Projects built", id: "Proyek dibangun" } },
+  { value: "3", label: { en: "Apps in my final project", id: "Aplikasi di tugas akhir saya" } },
+  { value: "6 mo", label: { en: "Industry internship", id: "Magang di industri" } },
 ];
 
 const floating = [
@@ -20,20 +23,13 @@ export default function Hero() {
     <section className="mx-auto grid max-w-6xl items-center gap-14 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.15fr_0.85fr]">
       <div>
         <Reveal>
-          <div className="inline-flex max-w-full items-center gap-3 rounded-2xl border border-line bg-surface/60 px-4 py-2.5 backdrop-blur">
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-3.5 py-1.5 font-mono text-xs text-accent backdrop-blur">
             <span className="relative flex h-2 w-2 shrink-0">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
             </span>
-            <ul className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-accent">
-              {roles.map((r, i) => (
-                <li key={r} className="flex items-center gap-3">
-                  {i > 0 && <span aria-hidden className="h-3 w-px bg-line" />}
-                  {r}
-                </li>
-              ))}
-            </ul>
-          </div>
+            <T en={site.role} id={site.roleId} />
+          </p>
         </Reveal>
 
         <Reveal delay={0.08}>
@@ -43,8 +39,32 @@ export default function Hero() {
         </Reveal>
 
         <Reveal delay={0.16}>
-          <p className="mt-5 max-w-xl font-heading text-xl text-fg sm:text-2xl">{site.tagline}</p>
-          <p className="mt-4 max-w-xl leading-relaxed text-muted">{site.description}</p>
+          <p className="mt-5 max-w-xl font-heading text-xl text-fg sm:text-2xl">
+            <T en={site.tagline} id={site.taglineId} />
+          </p>
+          <p className="mt-4 max-w-xl leading-relaxed text-muted">
+            <T en={site.description} id={site.descriptionId} />
+          </p>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {site.focusAreas.map((area) => (
+              <li
+                key={area.en}
+                className="rounded-full border border-line bg-surface/60 px-3 py-1 font-mono text-xs text-fg/85 backdrop-blur"
+              >
+                <B v={area} />
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 inline-flex items-center gap-2.5 text-sm text-fg/90">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            <T
+              en="Open to full-time roles and freelance projects"
+              id="Terbuka untuk posisi full-time dan proyek freelance"
+            />
+          </p>
         </Reveal>
 
         <Reveal delay={0.24}>
@@ -53,23 +73,50 @@ export default function Hero() {
               href="/projects"
               className="rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-white shadow-[0_0_34px_-6px_rgba(37,99,235,0.85)] transition hover:-translate-y-0.5 hover:bg-primary/90"
             >
-              Explore Projects
+              <T en="Explore Projects" id="Lihat Proyek" />
             </Link>
             <Link
               href={site.cvPage}
               className="rounded-full border border-line bg-surface/40 px-7 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface"
             >
-              View CV
+              <T en="View CV" id="Lihat CV" />
             </Link>
+            <T
+              en={
+                <a
+                  href={site.whatsapp.en}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-line bg-surface/40 px-7 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface"
+                >
+                  Chat on WhatsApp ↗
+                </a>
+              }
+              id={
+                <a
+                  href={site.whatsapp.id}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full border border-line bg-surface/40 px-7 py-3.5 text-sm font-medium text-fg backdrop-blur transition hover:-translate-y-0.5 hover:border-accent/50 hover:bg-surface"
+                >
+                  Chat WhatsApp ↗
+                </a>
+              }
+            />
           </div>
         </Reveal>
 
         <Reveal delay={0.32}>
-          <p className="mt-10 font-mono text-xs text-muted">
-            Laravel <span className="text-accent">/</span> React{" "}
-            <span className="text-accent">/</span> Next.js <span className="text-accent">/</span>{" "}
-            Kotlin
-          </p>
+          <dl className="mt-12 grid max-w-xl grid-cols-3 gap-4 border-t border-line pt-6">
+            {stats.map((stat) => (
+              <div key={stat.label.en}>
+                <dt className="font-heading text-3xl font-bold tracking-tight text-fg">{stat.value}</dt>
+                <dd className="mt-1 text-xs leading-snug text-muted">
+                  <B v={stat.label} />
+                </dd>
+              </div>
+            ))}
+          </dl>
         </Reveal>
       </div>
 

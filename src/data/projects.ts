@@ -1,3 +1,5 @@
+import { projectsId } from "@/data/projectsId";
+
 export type Feature = { title: string; description: string };
 
 export type Project = {
@@ -25,6 +27,12 @@ export type Project = {
 };
 
 export const SCREENSHOT_COUNT = 4;
+
+// Terjemahan Bahasa Indonesia ada di data/projectsId.ts (field yang kosong memakai teks Inggris).
+export function localize(project: Project, lang: "en" | "id"): Project {
+  if (lang === "en") return project;
+  return { ...project, ...(projectsId[project.slug] ?? {}) };
+}
 
 // Ubah `featured` untuk menentukan proyek yang tampil di homepage.
 // Teks adalah DRAF — silakan ganti. Isi field yang kosong untuk memunculkan bagiannya di halaman detail.
@@ -179,7 +187,7 @@ export const projects: Project[] = [
     role: "Freelance Full-Stack Developer",
     timeline: "Aug 2026",
     overview:
-      "The Customer Complaint System is an internal platform at PT INKA Multi Solusi built with Laravel 13 and Filament, split into a Customer panel and an Admin panel. A customer submits a complaint with product details and supporting attachments; the admin team then investigates, records corrective actions, and routes the case through a structured approval process before the customer confirms the resolution. Every closed complaint produces a PDF report with a QR-coded verification signature.",
+      "The Customer Complaint System is a freelance project built for PT INKA Multi Solusi with Laravel 13 and Filament, split into a Customer panel and an Admin panel. A customer submits a complaint with product details and supporting attachments; the admin team then investigates, records corrective actions, and routes the case through a structured approval process before the customer confirms the resolution. Every closed complaint produces a PDF report with a QR-coded verification signature.",
     link: "https://support.ims.id",
     problem:
       "Customer complaints about delivered products were being tracked informally, with no single record of a complaint's investigation, the corrective action taken, or who had signed off on closing it. There was no structured way to make sure every stage — investigation, repair, and multi-department approval — was actually completed and documented before a complaint was marked resolved, and no way for a customer to formally confirm the outcome.",

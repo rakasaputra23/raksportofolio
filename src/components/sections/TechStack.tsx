@@ -1,6 +1,7 @@
 import { techStack } from "@/data/techStack";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import T, { B } from "@/components/ui/T";
 
 export default function TechStack() {
   return (
@@ -8,17 +9,24 @@ export default function TechStack() {
       <Reveal>
         <SectionHeading
           eyebrow="// tech stack"
-          title="Tools I build with"
-          description="A focused toolkit across web, backend, and Android development."
+          title={<T en="Tools I build with" id="Tools yang saya pakai" />}
+          description={
+            <T
+              en="A toolkit across web, backend, mobile, and IT infrastructure."
+              id="Toolkit di web, backend, mobile, dan infrastruktur TI."
+            />
+          }
         />
       </Reveal>
 
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {techStack.map((group, i) => (
           <Reveal key={group.label} delay={i * 0.07}>
             <div className="card-glow h-full rounded-3xl border border-line bg-surface/60 p-6 backdrop-blur-sm">
               <h3 className="font-heading text-lg font-semibold">{group.label}</h3>
-              <p className="mt-1 text-sm text-muted">{group.hint}</p>
+              <p className="mt-1 text-sm text-muted">
+                <B v={group.hint} />
+              </p>
               <ul className="mt-5 flex flex-wrap gap-2">
                 {group.items.map((item) => (
                   <li

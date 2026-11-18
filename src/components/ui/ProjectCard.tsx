@@ -1,5 +1,6 @@
 import Link from "next/link";
-import type { Project } from "@/data/projects";
+import { localize, type Project } from "@/data/projects";
+import T from "@/components/ui/T";
 import CoverImage from "@/components/ui/CoverImage";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export default function ProjectCard({ project, index }: Props) {
+  const id = localize(project, "id");
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -32,8 +34,11 @@ export default function ProjectCard({ project, index }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <p className="font-mono text-xs text-accent">{project.category}</p>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{project.summary}</p>
+        <p className="font-mono text-xs text-accent"><T en={project.category} id={id.category} />
+        </p>
+        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
+          <T en={project.summary} id={id.summary} />
+        </p>
 
         <ul className="mt-5 flex flex-wrap gap-2">
           {project.stack.map((tech) => (
@@ -47,7 +52,7 @@ export default function ProjectCard({ project, index }: Props) {
         </ul>
 
         <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent">
-          View project
+          <T en="View project" id="Lihat proyek" />
           <span aria-hidden className="transition-transform group-hover:translate-x-1">
             →
           </span>

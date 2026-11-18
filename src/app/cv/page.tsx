@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { site } from "@/data/site";
 import Reveal from "@/components/ui/Reveal";
+import T from "@/components/ui/T";
 
 export const metadata: Metadata = {
   title: "CV",
   description: "Curriculum Vitae of Mohammad Raka Saputra.",
+  alternates: { canonical: "/cv" },
 };
 
 export default function CvPage() {
@@ -22,7 +24,7 @@ export default function CvPage() {
             download="CV-Mohammad-Raka-Saputra.pdf"
             className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-white shadow-[0_0_30px_-8px_rgba(37,99,235,0.85)] transition hover:-translate-y-0.5 hover:bg-primary/90"
           >
-            Download PDF
+            <T en="Download PDF" id="Unduh PDF" />
           </a>
         </div>
       </Reveal>

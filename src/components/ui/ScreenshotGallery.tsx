@@ -3,15 +3,17 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import T from "@/components/ui/T";
 
 type Props = {
   slug: string;
   title: string;
   count: number;
   captions?: string[];
+  captionsId?: string[];
 };
 
-export default function ScreenshotGallery({ slug, title, count, captions = [] }: Props) {
+export default function ScreenshotGallery({ slug, title, count, captions = [], captionsId = [] }: Props) {
   const [failed, setFailed] = useState<Record<number, boolean>>({});
   const [active, setActive] = useState<number | null>(null);
 
@@ -19,6 +21,7 @@ export default function ScreenshotGallery({ slug, title, count, captions = [] }:
     n: i + 1,
     src: `/images/projects/${slug}/${i + 1}.png`,
     caption: captions[i] ?? `Screenshot ${i + 1}`,
+    captionId: captionsId[i] ?? captions[i] ?? `Tangkapan layar ${i + 1}`,
   }));
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export default function ScreenshotGallery({ slug, title, count, captions = [] }:
             >
               {failed[it.n] ? (
                 <span className="absolute inset-0 grid place-items-center font-mono text-xs text-muted">
-                  Screenshot coming soon
+                  <T en="Screenshot coming soon" id="Tangkapan layar segera hadir" />
                 </span>
               ) : (
                 <Image
@@ -61,7 +64,9 @@ export default function ScreenshotGallery({ slug, title, count, captions = [] }:
                 />
               )}
             </button>
-            <figcaption className="mt-2 px-1 font-mono text-xs text-muted">{it.caption}</figcaption>
+            <figcaption className="mt-2 px-1 font-mono text-xs text-muted">
+              <T en={it.caption} id={it.captionId} />
+            </figcaption>
           </figure>
         ))}
       </div>
@@ -97,7 +102,7 @@ export default function ScreenshotGallery({ slug, title, count, captions = [] }:
               />
             </div>
             <p className="absolute bottom-5 font-mono text-xs text-muted">
-              {current.caption} · {current.n}/{count}
+              <T en={current.caption} id={current.captionId} /> · {current.n}/{count}
             </p>
           </motion.div>
         )}

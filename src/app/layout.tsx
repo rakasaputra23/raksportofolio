@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -34,24 +35,92 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  keywords: [
+    "Mohammad Raka Saputra",
+    "Full-Stack Developer",
+    "Android Developer",
+    "Laravel",
+    "React",
+    "Kotlin",
+    "Jetpack Compose",
+    "Freelance Developer",
+    "Information Technology Graduate",
+    "IT Support",
+    "Computer Networking",
+    "Sidoarjo",
+    "Portfolio",
+  ],
   openGraph: {
     title: `${site.name} — ${site.role}`,
-    description: site.tagline,
+    description: site.headline,
+    siteName: site.name,
+    locale: "en_US",
+    alternateLocale: ["id_ID"],
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} — ${site.role}`,
+    description: site.headline,
+  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
   themeColor: "#080d19",
 };
 
+// Menentukan bahasa awal sebelum halaman tampil (tanpa kedip): pilihan tersimpan,
+// atau bahasa browser (Indonesia -> ID, lainnya -> EN).
+const langScript = `(function(){try{var s=localStorage.getItem("lang");var l=(s==="id"||s==="en")?s:((navigator.language||"").toLowerCase().indexOf("id")===0?"id":"en");var d=document.documentElement;d.setAttribute("data-lang",l);d.setAttribute("lang",l);}catch(e){}})();`;
+
+// Structured data untuk mesin pencari
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  url: site.url,
+  jobTitle: site.role,
+  description: site.description,
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Politeknik Negeri Madiun" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Sidoarjo",
+    addressRegion: "East Java",
+    addressCountry: "ID",
+  },
+  sameAs: [site.github, site.linkedin],
+  knowsAbout: [
+    "Laravel",
+    "PHP",
+    "React",
+    "Kotlin",
+    "Jetpack Compose",
+    "Firebase",
+    "MySQL",
+    "IT Support",
+    "Computer Networking",
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="relative flex min-h-full flex-col bg-bg text-fg">
+        <Script id="lang-init" strategy="beforeInteractive">
+          {langScript}
+        </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c") }}
+        />
         {/* Background layers: grid + blue glow */}
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
           <div className="bg-grid absolute inset-0" />

@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navLinks, site } from "@/data/site";
+import T from "@/components/ui/T";
+import LanguageSwitch from "@/components/layout/LanguageSwitch";
 
 function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -41,6 +43,7 @@ export default function Navbar() {
           <span>{site.shortName}</span>
         </Link>
 
+        <div className="flex items-center gap-2 sm:gap-3">
         {/* Desktop links */}
         <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
@@ -60,12 +63,14 @@ export default function Navbar() {
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}
-                  {link.label}
+                  <T en={link.label} id={link.labelId} />
                 </Link>
               </li>
             );
           })}
         </ul>
+
+        <LanguageSwitch />
 
         {/* Mobile toggle */}
         <button
@@ -94,6 +99,7 @@ export default function Navbar() {
             />
           </span>
         </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -121,7 +127,7 @@ export default function Navbar() {
                           : "text-muted hover:bg-surface hover:text-white"
                       }`}
                     >
-                      {link.label}
+                      <T en={link.label} id={link.labelId} />
                     </Link>
                   </li>
                 );
